@@ -34,6 +34,14 @@ php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTe
 ```
 After run command you can find config file in `config/admintemplate.php`, in this file you can change the configuration of this packages.
 
+#modified Views
+If you want to modified views file. please run this command. then you can find views file in your `resource/views/kamruljpi/admintemplete` folder. 
+
+```
+php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTemplateServiceProvider" --force
+
+```
+after complete this command also you can find configuration file in `config/admintemplete.php` . Then change to `'load_base_views' => true,` instead of `'load_base_views' => false,`
 
 #Configurations
 ------------
