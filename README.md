@@ -22,19 +22,19 @@ Then run these commands to publish assets and config：
 
 
 ```
-php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTemplateServiceProvider --tag=public --force
-"
+php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTemplateServiceProvider" --tag=public --force
+
 ```
 
 After run command you can find assets file in your base folder/media
 
 ```
-php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTemplateServiceProvider --tag=config --force
-"
+php artisan vendor:publish --provider="kamruljpi\admintemplate\providers\AdminTemplateServiceProvider" --tag=config --force
+
 ```
-After run command you can find config file in `config/admin.php`, in this file you can change the configuration of this packages.
+After run command you can find config file in `config/admintemplate.php`, in this file you can change the configuration of this packages.
 
 
-Configurations
+#Configurations
 ------------
-The file `config/admin.php` contains an array of configurations, you can find the default configurations in there.
+The file `config/admintemplate.php` contains an array of configurations, you can find the default configurations in there.
