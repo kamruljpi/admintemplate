@@ -1,0 +1,26 @@
+{
+    "name": "kamruljpi/admintemplate",
+    "description": "Admin Template",
+    "type": "composer",
+    "authors": [
+        {
+            "name": "MD Kamruzzaman",
+            "email": "kamruljpi@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "kamruljpi\\admintemplate\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "kamruljpi\\admintemplate\\providers\\AdminTemplateServiceProvider"
+            ]
+        }
+    }
+}
