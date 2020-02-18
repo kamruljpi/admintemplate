@@ -15,6 +15,10 @@
   <link rel="stylesheet" href="{{ asset('media/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script type="text/javascript">
+      var baseURL = '{{ url("/") }}';
+  </script>
+  @yield('stylesheet')
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -29,17 +33,17 @@ to get the desired effect
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 	<!-- Navbar -->
-	@include('admintemplate::admin.partials.navbar')
+	@include('admin.partials.navbar')
 	<!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  @include('admintemplate::admin.partials.sidebar')
+  @include('admin.partials.sidebar')
   <!-- / .Main Sidebar Container -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    	@include('admintemplate::admin.partials.content_header')
+    	@include('admin.partials.content_header')
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -55,7 +59,7 @@ to get the desired effect
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  @include('admintemplate::admin.partials.footer')
+  @include('admin.partials.footer')
 </div>
 <!-- ./wrapper -->
 
@@ -63,6 +67,7 @@ to get the desired effect
 
 <!-- jQuery -->
 <script src="{{ asset('media/plugins/jquery/jquery.min.js') }}"></script>
+@yield('prescript')
 <!-- Bootstrap -->
 <script src="{{ asset('media/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE -->
@@ -72,6 +77,7 @@ to get the desired effect
 <script src="{{ asset('media/plugins/chart.js/Chart.min.js') }}"></script>
 <script src="{{ asset('media/js/demo.js') }}"></script>
 <script src="{{ asset('media/js/pages/dashboard3.js') }}"></script>
+<script src="{{ asset('media/js/custom.js') }}"></script>
 @yield('script')
 </body>
 </html>

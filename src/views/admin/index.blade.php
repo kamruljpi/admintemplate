@@ -1,4 +1,4 @@
-@extends('admintemplate::admin.layout.app',[
+@extends('admin.layout.app',[
 	'title' => 'AdminLTE 3 | Dashboard 3',
 	'content_header' => 'Dashboard v3',
 	'breadcrumb' => [
