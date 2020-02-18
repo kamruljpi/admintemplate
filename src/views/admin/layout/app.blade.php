@@ -33,17 +33,17 @@ to get the desired effect
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 	<!-- Navbar -->
-	@include('admin.partials.navbar')
+	@include('admintemplate::admin.partials.navbar')
 	<!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  @include('admin.partials.sidebar')
+  @include('admintemplate::admin.partials.sidebar')
   <!-- / .Main Sidebar Container -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    	@include('admin.partials.content_header')
+    	@include('admintemplate::admin.partials.content_header')
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -59,7 +59,7 @@ to get the desired effect
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  @include('admin.partials.footer')
+  @include('admintemplate::admin.partials.footer')
 </div>
 <!-- ./wrapper -->
 
