@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "kamruljpi\\admintemplate\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers/helpers.php"
+        ]
     },
     "extra": {
         "laravel": {

@@ -1,6 +1,12 @@
 <?php
-
+	/*
+    |--------------------------------------------------------------------------
+    | Admin Template 
+    |--------------------------------------------------------------------------
+    |
+    */
 return [
+	'menus' => (function_exists('generateMenu')) ? generateMenu() : [],
     'path' => [
 
         'package_views' => base_path('vendor/kamruljpi/admintemplate/src/views'),
