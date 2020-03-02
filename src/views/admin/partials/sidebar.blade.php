@@ -21,16 +21,16 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          @if(count(config('admintemplate.menus')) > 0)
-          @foreach(config('admintemplate.menus') as $sl=>$menu)
+          @if(count(generateMenu()) > 0)
+          @foreach(generateMenu() as $sl=>$menu)
             <li class="nav-item {{ (isset($menu['subMenu']) && !empty($menu['subMenu']) && count($menu['subMenu']) > 0) ? 'has-treeview' : '' }}">
               
-                <a href="{{ (isset($menu['subMenu']) && !empty ($menu['subMenu'])) ? '#': (($menu['route_name'])? Route($menu['route_name']):'') }}" 
+                <a href="{{ (isset($menu['subMenu']) && !empty ($menu['subMenu'])) ? '#': (($menu['route_name'])? Route::has($menu['route_name']) ? Route($menu['route_name']) : '#' :'#') }}" 
                     class="nav-link" >
                     <i class="nav-icon fas {{ $menu['icon'] }}"></i>
                     <p>
                       {{ $menu['name'] }}
-                      {{ (isset($menu['subMenu']) && !empty($menu['subMenu']) && count($menu['subMenu']) > 0) ? '<i class="fas fa-angle-left right"></i>' : '' }}
+                      {!! (isset($menu['subMenu']) && !empty($menu['subMenu']) && count($menu['subMenu']) > 0) ? '<i class="fas fa-angle-left right"></i>' : '' !!}
                     </p>
                 </a>
                 @if(isset($menu['subMenu']) && !empty($menu['subMenu']))
@@ -43,7 +43,8 @@
                         @if($action_route!='action')
                             {{-- <li class="{{ (Route::current()->getName() == $sub_menu['route_name']) ? 'active' : '' }}"> --}}
                               <li class="nav-item">
-                                <a href="{{ ($sub_menu['route_name'])? Route($sub_menu['route_name']):'' }}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>{{$sub_menu['name']}}</p></a>
+
+                                <a href="{{ ($sub_menu['route_name'])? Route::has($sub_menu['route_name']) ? Route($sub_menu['route_name']) : '#' :'' }}" class="nav-link"><i class="far fa-circle nav-icon"></i><p>{{$sub_menu['name']}}</p></a>
                             </li>
                         @endif
                     @endforeach
