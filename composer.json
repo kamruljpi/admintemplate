@@ -1,14 +1,12 @@
 {
     "name": "kamruljpi/admintemplate",
     "description": "Admin Template",
-    "type": "composer",
     "authors": [
         {
             "name": "MD Kamruzzaman",
             "email": "kamruljpi@gmail.com"
         }
     ],
-    "license": "MIT",
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
@@ -26,5 +24,9 @@
                 "kamruljpi\\admintemplate\\providers\\AdminTemplateServiceProvider"
             ]
         }
-    }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
 }
