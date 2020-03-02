@@ -10,7 +10,9 @@
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "kamruljpi/role": "dev-master",
+    },
     "autoload": {
         "psr-4": {
             "kamruljpi\\admintemplate\\": "src/"
