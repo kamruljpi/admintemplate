@@ -4,13 +4,14 @@ namespace kamruljpi\admintemplate\controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Request;
-use kamruljpi\Role\Http\Model\UserRoleMenu;
+use Illuminate\Http\Request;
+
 class ProjectBaseController extends Controller
 {
     public $modelName = '';
     public $baseView = 'admintemplate::';
-    public $indexView = 'admin.base.index';
+    public $listView = 'admin.base.list';
+    public $formView;
     public $statusKey = 'is_active';
     public $isAjax = false;
     public $primaryKey;
@@ -28,10 +29,52 @@ class ProjectBaseController extends Controller
     public $modelClassName;
     public $dataTable = true;
     public $isFillable = true;
+    public $listRoute;
     public $createRoute;
     public $editRoute;
     public $deleteRoute;
     public $statusRoute;
+    // public function __construct() {
+        // $this->modelName = 'kamruljpi\Role\Http\Model\Role';
+        // $this->extraBtns = array(
+        //     array(
+        //         'routeName' => 'role_permission',
+        //         'title' => 'Role Permission',
+        //         'class' => 'role_permission_cls',
+        //     )
+        // );
+        // $this->btnLists = array(
+        //  array(
+        //      'routeName' => 'role_permission',
+        //      'title' => 'Role Permission',
+        //      'class' => 'role_permission_cls',
+        //  )
+        // );
+
+        // $this->perRowbtnLists = array(
+        //  array(
+        //      'routeName' => 'role_permission',
+        //      'title' => 'Role Permission',
+        //      // 'params' => ['id_role'],
+        //      // 'class' => 'btn-danger',
+        //  )
+        // );
+        // $this->tableLists = array(
+        //     'id_role' => array(
+        //         'title' => 'ID',
+        //         'align' => 'center',
+        //         'class' => 'fixed-width-xs',
+        //     ),
+        //     'name' => array(
+        //         'title' => 'URL',
+        //     ),
+        //     'is_active' => array(
+        //         'title' => 'Status',
+        //         'align' => 'center',
+        //         'class' => 'fixed-width-xs',
+        //     ),
+        // );
+    // }
     public function init(){
     	if(empty($this->modelName)){
     		$calledClass = get_called_class();
@@ -57,6 +100,9 @@ class ProjectBaseController extends Controller
     	if(empty($this->createRoute)){
     		$this->createRoute = $this->modelClassName."_create";
     	}
+        if(empty($this->listRoute)){
+            $this->listRoute = $this->modelClassName."_index";
+        }
     	if(empty($this->editRoute)){
     		$this->editRoute = $this->modelClassName."_edit";
     	}
@@ -66,7 +112,7 @@ class ProjectBaseController extends Controller
     	if(empty($this->statusRoute)){
     		$this->statusRoute = $this->modelClassName."_status";
     	}
-    	if(Request::ajax()){
+    	if(request()->ajax()){
     		$this->isAjax = true;
     	}
     	if(empty($this->postPerPage)){
@@ -86,7 +132,7 @@ class ProjectBaseController extends Controller
     			}
     		}
     	}
-    	return view($this->baseView.$this->indexView, [
+    	return view($this->baseView.$this->listView, [
 			'createBtnShow' => $this->createBtnShow,
 			'editBtnShow' => $this->editBtnShow,
 			'deleteBtnShow' => $this->deleteBtnShow,
@@ -106,6 +152,51 @@ class ProjectBaseController extends Controller
 			'modelClassName' => $this->modelClassName,
 			'details' => $dataLists,
 		]);
+    }
+    public function getValidation($table) {
+        return ['name' => 'required|unique:'.$table];
+    }
+    public function submit(Request $request, $url_id = null) {
+
+        $this->init();
+
+        $this->validate($request, $this->getValidation($this->modelObj->getTable()));
+
+        if(isset($request->{$this->primaryKey}) && !empty($request->{$this->primaryKey}) && ($url_id != null)){
+            $modelObj = $this->modelName::find($request->{$this->primaryKey});
+        }else{
+            $modelObj = new $this->modelName();
+        }
+
+        $modelObj->fill($request->all());
+
+        if(isset($request->{$this->primaryKey}) && !empty($request->{$this->primaryKey}) && ($url_id != null)){
+            $res = $modelObj->update();
+        }else{
+            $res = $modelObj->save();
+        }
+
+        if($res){
+            if($this->isAjax){
+                return json_encode([
+                        'status'=>200,
+                        'msg' => 'success',
+                        'data' => $res
+                    ]);
+            }else{
+                return redirect()->route($this->listRoute)->withSuccess("Successfuly created New ".$this->modelClassName.".");
+            }
+        }else{
+            if($this->isAjax){
+                return json_encode([
+                        'status'=>301,
+                        'msg' => 'error',
+                        'data' => []
+                    ]);
+            }else{
+                return redirect()->route($this->listRoute)->withErrors("Somethings Went Wrong! Please try Again.");
+            }
+        }
     }
     public function Status($id = null){
     	if($id == null){
@@ -195,5 +286,36 @@ class ProjectBaseController extends Controller
     		$html = '<a href="'.$link.'" class="btn btn-danger">Disable</a>';
     	}
     	return $html;
+    }
+    public function displayFormView($id = null)
+    {
+        $this->init();
+        if(isset($this->formView) && !empty($this->formView)){
+            if($id == null){
+                return view($this->formView);
+            }else{
+                return view($this->formView, [
+                        'data' => $this->modelName::find($id),
+                    ]);
+            }
+        }else{
+            return "formView is not defined.";
+        }
+    }
+    public function create() 
+    {
+        return $this->displayFormView();
+    }
+    public function createAction(Request $request) 
+    {
+        return $this->submit($request);
+    }
+    public function edit($id) 
+    {
+        return $this->displayFormView($id);
+    }
+    public function editAction(Request $request, $id) 
+    {
+        return $this->submit($request, $id);
     }
 }
