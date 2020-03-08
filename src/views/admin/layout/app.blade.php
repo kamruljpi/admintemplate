@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('media/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- IonIcons -->
   <link rel="stylesheet" href="{{ asset('media/css/ionicons.min.css') }}">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('media/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
@@ -71,6 +72,7 @@ to get the desired effect
 <!-- Bootstrap -->
 <script src="{{ asset('media/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="{{ asset('media/js/adminlte.js') }}"></script>
 
 <!-- OPTIONAL SCRIPTS -->
@@ -79,5 +81,36 @@ to get the desired effect
 <script src="{{ asset('media/js/pages/dashboard3.js') }}"></script>
 <script src="{{ asset('media/js/custom.js') }}"></script>
 @yield('script')
+<script type="text/javascript">
+  function required() {
+    var count = 0;
+    var result = 0;
+    $('form .required').each(function(event){
+      var _name = $(this).prop("name").split('[]').join("");
+      if(! $(this).val()) {
+        $(".span"+_name).remove();
+        var html = "<span class='help-block span"+_name+"'>";
+            html += "<strong>";
+            html += "The "+_name+" field is required.";
+            html += "</strong>";
+            html += "</span>";
+        $(this).parent().addClass('has-error');
+        $(this).parent().append(html);
+      }else{
+        $(this).parent().removeClass("has-error");
+          $(".span"+_name).remove();
+          result++
+      }
+      count++;
+    });
+
+    if(count == result) {
+      var previous = "<input type='hidden' name='previous_url' value='{{url()->current()}}'>"
+      $('form').append(previous);
+      return true;
+    }
+    event.preventDefault();
+  }
+</script>
 </body>
 </html>
