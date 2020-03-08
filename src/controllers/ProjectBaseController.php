@@ -124,6 +124,7 @@ class ProjectBaseController extends Controller
     }
     public function index(){
     	$this->init();
+
     	$dataLists = $this->modelName::paginate($this->postPerPage);
     	if(isset($dataLists) && !empty($dataLists) && count($dataLists) > 0){
     		foreach ($dataLists as &$value) {
@@ -153,8 +154,8 @@ class ProjectBaseController extends Controller
 			'details' => $dataLists,
 		]);
     }
-    public function getValidation($table) {
-        return ['name' => 'required|unique:'.$table];
+    public function getValidation($table = null) {
+        return [];
     }
     public function submit(Request $request, $url_id = null) {
 
