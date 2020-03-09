@@ -16,9 +16,20 @@
   <link rel="stylesheet" href="{{ asset('media/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="{{ asset('media/plugins/jquery/jquery.min.js') }}"></script>
   <script type="text/javascript">
       var baseURL = '{{ url("/") }}';
   </script>
+  <style type="text/css">
+    .has-error .help-block, .help-block{
+      color:red;
+      padding-top: 10px;
+    }
+    .toggle.radius, .toggle-on.radius, .toggle-off.radius { border-radius: 20px; }
+    .toggle.radius .toggle-handle { border-radius: 20px; }
+  </style>
+  @yield('style')
+  @yield('js')
   @yield('stylesheet')
 </head>
 <!--
