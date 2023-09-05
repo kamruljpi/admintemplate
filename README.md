@@ -5,14 +5,14 @@ This is admin template for laravel.
 
 #Requirements
 ------------
- - PHP >= 7.0.0
- - Laravel >= 5.5.0
+ - PHP >= 7.4.0
+ - Laravel >= 8.0.0
 
 
 #Installation
 ------------
 
-First, install laravel 5.5, and make sure that the database connection settings are correct.
+First, install laravel 8.0.0, and make sure that the database connection settings are correct.
 
 ```
 composer require kamruljpi/admintemplate
