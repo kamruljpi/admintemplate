@@ -242,7 +242,7 @@ class ProjectBaseController extends Controller
             $this->{"post{$this->modelClassName}update"}(['request' => $request, 'modelObj'=>$modelObj]);
         }else{
             if(method_exists($this, "pre{$this->modelClassName}save")){
-                $modelObj = $this->{"pre{$this->modelClassName}save"}(['request' => $request]);
+                $modelObj = $this->{"pre{$this->modelClassName}save"}(['request' => $request, 'modelObj'=>$modelObj]);
             }
             $res = $modelObj->save();
             $this->{"post{$this->modelClassName}save"}(['request' => $request, 'modelObj'=>$modelObj]);
