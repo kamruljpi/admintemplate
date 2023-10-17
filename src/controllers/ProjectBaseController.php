@@ -36,6 +36,8 @@ class ProjectBaseController extends Controller
     public $deleteRoute;
     public $statusRoute;
 	public $templateData;
+	public $listTemplateData;
+	public $templateViewData;
 	public $withJoin = [];
     // public function __construct() {
         // $this->modelName = 'kamruljpi\Role\Http\Model\Role';
@@ -102,6 +104,8 @@ class ProjectBaseController extends Controller
     	$mcount = (count($models) - 1);
     	$this->modelClassName = isset($models[$mcount]) ? strtolower($models[$mcount]) : '';
 		$this->setTemplateData();
+		$this->setListTemplateData();
+		$this->setViewTemplateData();
     	if(empty($this->fillableLists)){
     		$this->fillableLists = Schema::getColumnListing($this->modelObj->getTable());
     		$this->isFillable = false;
@@ -179,7 +183,7 @@ class ProjectBaseController extends Controller
                     }
                 }
             }
-            return view($this->baseView.$this->listView, [
+            $listData = $this->mergeListTemplateData([
                 'createBtnShow' => $this->createBtnShow,
                 'editBtnShow' => $this->editBtnShow,
                 'deleteBtnShow' => $this->deleteBtnShow,
@@ -200,6 +204,7 @@ class ProjectBaseController extends Controller
                 'modelClassName' => $this->modelClassName,
                 'details' => $dataLists,
             ]);
+            return view($this->baseView.$this->listView, $listData);
         }
     }
     public function getValidation($table = null) {
@@ -405,13 +410,28 @@ class ProjectBaseController extends Controller
             }
         }else{
             if(isset($getData) && !empty($getData)){
-                return view($this->formView, [
-                        'data' => $getData,
-                    ]);
+                $viewdata = $this->mergeTemplateViewData([
+                    'data' => $getData,
+                ]);
+                return view($this->formView, $viewdata);
             }else{
-                return view($this->formView);
+                $viewdata = $this->mergeTemplateViewData([]);
+                return view($this->formView, $viewdata);
             }
         }
+    }
+    public function mergeTemplateViewData($intdata = []) 
+    {
+		$def = [];
+		$Extradef = [];
+        if (isset($intdata) && !empty($intdata)){
+			$def = $intdata;
+		}
+		if (isset($this->templateViewData) && !empty($this->templateViewData)){
+			$Extradef = $this->templateViewData;
+		}
+		$res = array_merge($def, $Extradef);
+		return $res;
     }
 	public function mergeTemplateData($intdata = []) 
     {
@@ -422,6 +442,19 @@ class ProjectBaseController extends Controller
 		}
 		if (isset($this->templateData) && !empty($this->templateData)){
 			$Extradef = $this->templateData;
+		}
+		$res = array_merge($def, $Extradef);
+		return $res;
+    }
+    public function mergeListTemplateData($intdata = []) 
+    {
+		$def = [];
+		$Extradef = [];
+        if (isset($intdata) && !empty($intdata)){
+			$def = $intdata;
+		}
+		if (isset($this->listTemplateData) && !empty($this->listTemplateData)){
+			$Extradef = $this->listTemplateData;
 		}
 		$res = array_merge($def, $Extradef);
 		return $res;
@@ -444,6 +477,12 @@ class ProjectBaseController extends Controller
     }
 	public function setTemplateData(){
 		$this->templateData = [];
+	}
+	public function setListTemplateData(){
+		$this->listTemplateData = [];
+	}
+	public function setViewTemplateData(){
+		$this->templateViewData = [];
 	}
     public function getApiResponse($code = 200, $data = [], $msg = "success"){
         return json_encode([
